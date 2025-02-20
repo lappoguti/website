@@ -71,23 +71,25 @@ func connectWithConnector() {
 
 type Page struct {
     Id int
+    Title string
     Text string
 }
 
 func (p *Page) save() error {
-    _, err := db.Exec("REPLACE INTO Articles (ArticleId, ArticleText) VALUES (?, ?)", strconv.Itoa(p.Id), p.Text)
+    _, err := db.Exec("REPLACE INTO Articles (ArticleId, ArticleTitle, ArticleText) VALUES (?, ?, ?)", strconv.Itoa(p.Id), p.Title, p.Text)
     return err
 }
 
 func loadPage(id int) (*Page, error) {
-    row := db.QueryRow("SELECT ArticleText FROM Articles WHERE ArticleId = ?;", id)
+    row := db.QueryRow("SELECT ArticleTitle, ArticleText FROM Articles WHERE ArticleId = ?;", id)
     var (
+        title string
         text string
     )
-    if err := row.Scan(&text); err != nil {
+    if err := row.Scan(&title, &text); err != nil {
         return nil, err
     }
-    return &Page{Id: id, Text: text}, nil
+    return &Page{Id: id, Title: title, Text: text}, nil
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -107,7 +109,7 @@ func editHandler(w http.ResponseWriter, r *http.Request, id int) {
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request, id int) {
-    p := &Page{Id: id, Text: r.FormValue("body")}
+    p := &Page{Id: id, Title: r.FormValue("title"), Text: r.FormValue("text")}
     err := p.save()
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)

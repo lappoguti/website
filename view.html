@@ -1,3 +1,5 @@
 <body>
-    {{printf "%s" .Text}}
+    <h1>{{.Title}}</h1>
+    <p>[<a href="/edit/{{.Id}}">edit</a>]</p>
+    {{.Text}}
 </body>

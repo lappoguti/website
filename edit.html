@@ -1,6 +1,7 @@
 <body>
 <form action="/save/{{.Id}}" method="POST">
-<div><textarea name="body" rows="20" cols="80">{{printf "%s" .Text}}</textarea></div>
-<div><input type="submit" value="Save"></div>
+<input type="text" name="title" value="{{.Title}}">
+<textarea name="text" rows="20" cols="80">{{.Text}}</textarea>
+<input type="submit" value="Save">
 </form>
 </body>

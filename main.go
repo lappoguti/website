@@ -9,12 +9,19 @@ import (
     "database/sql"
     "context"
     "net"
+    "html/template"
+    "regexp"
+    "strconv"
 
     "cloud.google.com/go/cloudsqlconn"
     "github.com/go-sql-driver/mysql"
 )
 
-func connectWithConnector() (*sql.DB, error) {
+var (
+    db *sql.DB
+)
+
+func connectWithConnector() {
     mustGetenv := func(k string) string {
         v := os.Getenv(k)
         if v == "" {
@@ -40,7 +47,7 @@ func connectWithConnector() (*sql.DB, error) {
     // avoid background refreshes from throttling CPU.
     d, err := cloudsqlconn.NewDialer(context.Background(), cloudsqlconn.WithLazyRefresh())
     if err != nil {
-        return nil, fmt.Errorf("cloudsqlconn.NewDialer: %w", err)
+        panic(fmt.Errorf("cloudsqlconn.NewDialer: %w", err))
     }
     var opts []cloudsqlconn.DialOption
     if usePrivate != "" {
@@ -56,34 +63,92 @@ func connectWithConnector() (*sql.DB, error) {
 
     dbPool, err := sql.Open("mysql", dbURI)
     if err != nil {
-        return nil, fmt.Errorf("sql.Open: %w", err)
+        panic(fmt.Errorf("sql.Open: %w", err))
     }
-    return dbPool, nil
+
+    db = dbPool
+}
+
+type Page struct {
+    Id int
+    Text string
+}
+
+func (p *Page) save() error {
+    _, err := db.Exec("REPLACE INTO Articles (ArticleId, ArticleText) VALUES (?, ?)", strconv.Itoa(p.Id), p.Text)
+    return err
+}
+
+func loadPage(id int) (*Page, error) {
+    row := db.QueryRow("SELECT ArticleText FROM Articles WHERE ArticleId = ?;", id)
+    var (
+        text string
+    )
+    if err := row.Scan(&text); err != nil {
+        return nil, err
+    }
+    return &Page{Id: id, Text: text}, nil
+}
+
+func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
+    p, err := loadPage(id)
+    if err != nil {
+        return
+    }
+    renderTemplate(w, "view", p)
+}
+
+func editHandler(w http.ResponseWriter, r *http.Request, id int) {
+    p, err := loadPage(id)
+    if err != nil {
+        p = &Page{Id: id}
+    }
+    renderTemplate(w, "edit", p)
+}
+
+func saveHandler(w http.ResponseWriter, r *http.Request, id int) {
+    p := &Page{Id: id, Text: r.FormValue("body")}
+    err := p.save()
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    http.Redirect(w, r, "/view/" + strconv.Itoa(p.Id), http.StatusFound)
+}
+
+var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+
+func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+    err := templates.ExecuteTemplate(w, tmpl + ".html", p)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+    }
+}
+
+var validPath = regexp.MustCompile("^/(edit|save|view)/([0-9]+)$")
+
+func makeHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        m := validPath.FindStringSubmatch(r.URL.Path)
+        if m == nil {
+            http.NotFound(w, r)
+            return
+        }
+        i, err := strconv.Atoi(m[2])
+        if err != nil {
+            // ... handle error
+            panic(err)
+        }
+        fn(w, r, i)
+    }
 }
 
 func main() {
-    db, err := connectWithConnector()
-    if err != nil {
-        panic(err)
-    }
+    connectWithConnector()
 
-    log.Print("starting server...")
-
-    articleHandlerWrapper := func(w http.ResponseWriter, r *http.Request) {
-        log.Printf("hello world")
-        row := db.QueryRow("SELECT * FROM Articles WHERE ArticleId = 1;")
-        var (
-            id int64
-            text string
-        )
-        if err := row.Scan(&id, &text); err != nil {
-            log.Fatal(err)
-        }
-
-        fmt.Fprintf(w, "id %d text is %s\n", id, text)
-        fmt.Fprintf(w, "help")
-    }
-    http.HandleFunc("/", articleHandlerWrapper)
+    http.HandleFunc("/view/", makeHandler(viewHandler))
+    http.HandleFunc("/edit/", makeHandler(editHandler))
+    http.HandleFunc("/save/", makeHandler(saveHandler))
 
     // Determine port for HTTP service.
     port := os.Getenv("PORT")
@@ -94,7 +159,7 @@ func main() {
 
     // Start HTTP server.
     log.Printf("listening on port %s", port)
-    if err := http.ListenAndServe(":"+port, nil); err != nil {
+    if err := http.ListenAndServe(":" + port, nil); err != nil {
         log.Fatal(err)
     }
 }

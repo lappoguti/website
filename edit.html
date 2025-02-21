@@ -1,7 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+</head>
 <body>
-<form action="/save/{{.Id}}" method="POST">
-<input type="text" name="title" value="{{.Title}}">
-<textarea name="text" rows="20" cols="80">{{.Text}}</textarea>
-<input type="submit" value="Save">
-</form>
+    <nav>
+        <ul>
+            <li><a href="/">home</a></li>
+        </ul>
+    </nav>
+    <form action="/save/{{.Id}}" method="POST">
+        <label for="title">Title:</label><br>
+        <input type="text" name="title" value="{{.Title}}"><br>
+
+        <label for="text">Text:</label><br>
+        <textarea name="text" rows="20" cols="80">{{.Text}}</textarea><br>
+
+        <input type="submit" value="Save"><br>
+    </form>
 </body>
+</html>

@@ -69,6 +69,43 @@ func connectWithConnector() {
     db = dbPool
 }
 
+var templates = template.Must(template.ParseFiles("edit.html", "view.html", "index.html"))
+
+type IndexEntry struct {
+    Id int
+    Title string
+}
+
+type Index struct {
+    IndexEntries []IndexEntry
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+    rows, err := db.Query("SELECT ArticleId, ArticleTitle FROM Articles;")
+    if err != nil {
+        log.Println("Error querying index: ", err)
+        return
+    }
+    defer rows.Close()
+
+    index := Index{}
+    for rows.Next() {
+        entry := IndexEntry{}
+        if err := rows.Scan(&entry.Id, &entry.Title); err != nil {
+            log.Println("Error scanning index query: ", err)
+            return
+        }
+
+        index.IndexEntries = append(index.IndexEntries, entry)
+    }
+
+    err = templates.ExecuteTemplate(w, "index.html", index)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Println("Error executing index template: ", err)
+    }
+}
+
 type Page struct {
     Id int
     Title string
@@ -87,6 +124,7 @@ func loadPage(id int) (*Page, error) {
         text string
     )
     if err := row.Scan(&title, &text); err != nil {
+        log.Println("Error scanning article query: ", err)
         return nil, err
     }
     return &Page{Id: id, Title: title, Text: text}, nil
@@ -97,7 +135,11 @@ func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
     if err != nil {
         return
     }
-    renderTemplate(w, "view", p)
+    err = templates.ExecuteTemplate(w, "view.html", p)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Println("Error executing view template: ", err)
+    }
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -105,7 +147,11 @@ func editHandler(w http.ResponseWriter, r *http.Request, id int) {
     if err != nil {
         p = &Page{Id: id}
     }
-    renderTemplate(w, "edit", p)
+    err = templates.ExecuteTemplate(w, "edit.html", p)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Println("Error executing edit template: ", err)
+    }
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -113,23 +159,15 @@ func saveHandler(w http.ResponseWriter, r *http.Request, id int) {
     err := p.save()
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Println("Error saving page: ", err)
         return
     }
     http.Redirect(w, r, "/view/" + strconv.Itoa(p.Id), http.StatusFound)
 }
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
-
-func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-    err := templates.ExecuteTemplate(w, tmpl + ".html", p)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-    }
-}
-
 var validPath = regexp.MustCompile("^/(edit|save|view)/([0-9]+)$")
 
-func makeHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+func makePageHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         m := validPath.FindStringSubmatch(r.URL.Path)
         if m == nil {
@@ -138,6 +176,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerF
         }
         i, err := strconv.Atoi(m[2])
         if err != nil {
+            log.Println("Failed to parse article id: ", err)
             // ... handle error
             panic(err)
         }
@@ -148,9 +187,10 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerF
 func main() {
     connectWithConnector()
 
-    http.HandleFunc("/view/", makeHandler(viewHandler))
-    http.HandleFunc("/edit/", makeHandler(editHandler))
-    http.HandleFunc("/save/", makeHandler(saveHandler))
+    http.HandleFunc("/", indexHandler)
+    http.HandleFunc("/view/", makePageHandler(viewHandler))
+    http.HandleFunc("/edit/", makePageHandler(editHandler))
+    http.HandleFunc("/save/", makePageHandler(saveHandler))
 
     // Determine port for HTTP service.
     port := os.Getenv("PORT")

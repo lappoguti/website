@@ -1,0 +1,12 @@
+<body>
+    <table>
+        <tr>
+            <th>Title</th>
+        </tr>
+        {{range .IndexEntries}}
+        <tr>
+            <th><a href="/view/{{.Id}}">{{.Title}}</a></th>
+        </tr>
+        {{end}}
+    </table>
+</body>

@@ -3,21 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>{{.Title}}</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/">home</a></li>
-        </ul>
-    </nav>
-    <form action="/save/{{.Id}}" method="POST">
-        <label for="title">Title:</label><br>
-        <input type="text" name="title" value="{{.Title}}"><br>
+    <header>
+        <h1>{{.Title}}</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/view/{{.Id}}">View</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form action="/save/{{.Id}}" method="POST">
+            <label for="title">Title:</label><br>
+            <input type="text" name="title" value="{{.Title}}"><br><br>
 
-        <label for="text">Text:</label><br>
-        <textarea name="text" rows="20" cols="80">{{.Text}}</textarea><br>
+            <label for="text">Text:</label><br>
+            <textarea name="text">{{.Text}}</textarea><br><br>
 
-        <input type="submit" value="Save"><br>
-    </form>
+            <input type="submit" value="Save"><br>
+        </form>
+    </main>
 </body>
 </html>

@@ -1,0 +1,76 @@
+header {
+    padding: 1em;
+}
+
+header h1 {
+    font-size: 7em;
+    text-align: center;
+    font-family: "Instrument Serif", serif;
+}
+
+header nav {
+    margin: auto;
+    width: fit-content;
+}
+
+header nav ul {
+    list-style-type: none;
+    display: inline;
+    display: flex;
+    padding: 0;
+}
+
+header nav li {
+    padding: .5em;
+}
+
+main {
+    max-width: 40em;
+    margin: auto;
+}
+
+main table {
+    margin: auto;
+    border: solid;
+    border-collapse: collapse;
+    box-shadow: .25em .25em black;
+}
+
+main table th {
+    border: solid;
+    padding: .5em;
+}
+
+main table td {
+    border: solid;
+    padding: .5em;
+}
+
+main table caption {
+    caption-side: bottom;
+    padding: 1em;
+}
+
+main form {
+    box-shadow: .25em .25em black;
+    padding: 1em;
+    background: #f8f8f8;
+}
+
+main form label {
+    font-family: "Instrument Serif", serif;
+    font-size: 1.25em;
+}
+
+main form textarea {
+    width: 95%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Instrument Serif", serif;
+}
+
+p {
+  font-family: "Instrument Sans", serif;
+  font-size: 1.25em;
+}

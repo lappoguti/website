@@ -69,13 +69,7 @@ func connectWithConnector() {
     db = dbPool
 }
 
-var templates = template.Must(
-    template.ParseFiles(
-        "templates/edit.html",
-        "templates/view.html",
-        "templates/index.html"
-    )
-)
+var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/index.html"))
 
 type IndexEntry struct {
     Id int
@@ -105,7 +99,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
         index.IndexEntries = append(index.IndexEntries, entry)
     }
 
-    err = templates.ExecuteTemplate(w, "templates/index.html", index)
+    err = templates.ExecuteTemplate(w, "index.html", index)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         log.Println("Error executing index template: ", err)
@@ -141,7 +135,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
     if err != nil {
         return
     }
-    err = templates.ExecuteTemplate(w, "templates/view.html", p)
+    err = templates.ExecuteTemplate(w, "view.html", p)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         log.Println("Error executing view template: ", err)
@@ -153,7 +147,7 @@ func editHandler(w http.ResponseWriter, r *http.Request, id int) {
     if err != nil {
         p = &Page{Id: id}
     }
-    err = templates.ExecuteTemplate(w, "templates/edit.html", p)
+    err = templates.ExecuteTemplate(w, "edit.html", p)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         log.Println("Error executing edit template: ", err)
@@ -197,6 +191,9 @@ func main() {
     http.HandleFunc("/view/", makePageHandler(viewHandler))
     http.HandleFunc("/edit/", makePageHandler(editHandler))
     http.HandleFunc("/save/", makePageHandler(saveHandler))
+
+    fs := http.FileServer(http.Dir("assets"))
+    http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
     // Determine port for HTTP service.
     port := os.Getenv("PORT")

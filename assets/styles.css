@@ -1,7 +1,3 @@
-* {
-    border: dotted;
-}
-
 header {
     padding: 1em;
 }
@@ -51,6 +47,18 @@ main table td {
 
 main table caption {
     caption-side: bottom;
+    padding: 1em;
+}
+
+main img {
+    width: 100%;
+    border: solid;
+    box-shadow: .25em .25em black;
+}
+
+main figure figcaption {
+    caption-side: bottom;
+    text-align: center;
     padding: 1em;
 }
 

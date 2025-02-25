@@ -1,59 +1,88 @@
+* {
+    box-sizing: border-box;
+    font-family: "Merriweather", serif;
+    margin: 0;
+}
+
+.stack > * + * {
+    margin-block-start: 1.5rem;
+}
+
+.stack-small > * + * {
+    margin-block-start: 1.25rem;
+}
+
+label {
+    display: block;
+    font-weight: 700;
+}
+
 header {
-    padding: 1em;
+    padding: 1rem;
 }
 
-header h1 {
-    text-align: center;
-    font-family: "Instrument Serif", serif;
+h1 {
+    font-size: 2.5rem;
 }
 
-header nav {
-    margin: auto;
+h2 {
+    font-size: 2.25rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+    font-size: 1.75rem;
+}
+
+h5 {
+    font-size: 1.5rem;
+}
+
+h6 {
+    font-size: 1.25rem;
+}
+
+p {
+    line-height: 1.5rem;
+}
+
+nav {
     width: fit-content;
 }
 
-header nav ul {
+nav ul {
     list-style-type: none;
-    display: inline;
-    display: flex;
+    display: block;
     padding: 0;
-}
-
-header nav li {
-    padding: .5em;
+    direction: ltr;
 }
 
 main {
-    max-width: 40em;
+    max-width: 40rem;
     margin: auto;
 }
 
-main table {
-    margin: auto;
-    border: solid;
+table {
     border-collapse: collapse;
-    box-shadow: .25em .25em black;
 }
 
-main table th {
+table, th, td {
+    margin: auto;
     border: solid;
-    padding: .5em;
+    padding: 0.5rem;
 }
 
-main table td {
-    border: solid;
-    padding: .5em;
-}
-
-main table caption {
+caption {
     caption-side: bottom;
-    padding: 1em;
+    padding: 1rem;
 }
 
 main img {
     width: 100%;
     border: solid;
-    box-shadow: .25em .25em black;
 }
 
 main figure figcaption {
@@ -63,24 +92,9 @@ main figure figcaption {
 }
 
 main form {
-    box-shadow: .25em .25em black;
     padding: 1em;
-    background: #f8f8f8;
-}
-
-/* TEST */
-main form label {
-    font-family: "Instrument Serif", serif;
 }
 
 main form textarea {
     width: 95%;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Instrument Serif", serif;
-}
-
-p {
-  font-family: "Instrument Sans", serif;
 }

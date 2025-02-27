@@ -11,26 +11,22 @@
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <div class="with-sidebar">
-        <div class="sidebar">
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="/">@diegoguti</a></li>
-                        <li><a href="/edit/{{.Id}}">Edit</a></li>
-                    </ul>
-                </nav>
-            </header>
-        </div>
-        <div class="not-sidebar">
-            <div class="center">
-                <main class="stack">
-                    <h1>{{.Title}}</h1>
-                    <p>{{.Description}}</p>
+    <div class="stack">
+        <header>
+            <nav class="cluster">
+                <h1><a href="/">@diegoguti</a></h1>
+                <ul class="cluster">
+                    <li><a href="/edit/{{.Id}}">Edit</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="center">
+            <main class="stack">
+                <h1>{{.Title}}</h1>
+                <p>{{.Description}}</p>
 
-                    {{.Html}}
-                </main>
-            </div>
+                {{.Html}}
+            </main>
         </div>
     </div>
 </body>

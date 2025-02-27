@@ -57,7 +57,7 @@ a {
 }
 
 .box {
-    padding: 1.5rem;
+    padding: 0.75rem;
 }
 
 .box * {
@@ -120,14 +120,12 @@ p {
 }
 
 nav {
-    width: fit-content;
+    justify-content: space-between;
+    align-items: center;
 }
 
 nav ul {
     list-style-type: none;
-    display: block;
-    padding: 0;
-    direction: ltr;
 }
 
 main {

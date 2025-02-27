@@ -12,64 +12,19 @@
     <link rel="stylesheet" href="/assets/fonts.css">
 </head>
 <body>
-    <div class="with-sidebar">
-        <div class="sidebar">
-            <header>
-                <nav>
-                    <ul>
-                        <li><h1><a href="/">Λ</a></h1></li>
-                    </ul>
-                </nav>
-            </header>
-        </div>
-        <div class="not-sidebar">
-            <div class="center">
-                <main class="stack">
-                    <h1 class="merriweather-bold">
-                        Diego Gutierrez
-                    </h1>
-
-                    <p>
-                        Hi 👋! My name is Diego Gutierrez and here is my website. The table below has some of my blog posts.
-                    </p>
-
-                    <table>
-                        <caption>Index of articles on this website</caption>
-                        <tr>
-                            <th>Article</th>
-                            <th>Description</th>
-                        </tr>
-                        
-                        {{range .IndexEntries}}
-                        <tr>
-                            <td><a href="/view/{{.Id}}">{{.Title}}</a></td>
-                            <td>{{.Description}}</td>
-                        </tr>
-                        {{end}}
-                        
-                    </table>
-
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae suscipit magna. Quisque ut ex efficitur quam sagittis sagittis vitae a nulla. Phasellus vitae semper ipsum. Nulla eu condimentum lorem, vitae vestibulum orci. Pellentesque iaculis finibus luctus. Mauris vel viverra justo. Cras a nunc non nibh bibendum sodales sit amet eget est. In mollis lacus vel dolor blandit, at molestie nunc efficitur. Maecenas a felis fringilla magna volutpat sagittis molestie et sapien. Vestibulum iaculis mollis lectus, id efficitur nisi vulputate id.
-                    </p>
-
-                    <p>
-                        Donec velit dui, vestibulum ac feugiat id, rutrum sit amet ligula. Aliquam sodales malesuada velit, vitae cursus justo malesuada sed. Sed id turpis mi. Donec ac facilisis lacus. Maecenas dapibus dapibus diam, ac accumsan ligula aliquam quis. Sed at nulla scelerisque, fermentum neque eu, finibus libero. Praesent euismod gravida purus, a efficitur tortor mattis non. Nulla rutrum a arcu eget tincidunt. Mauris hendrerit imperdiet nulla, sit amet auctor massa egestas non.
-                    </p>
-
-                    <p>
-                        Nulla ut lorem nec purus condimentum vestibulum. Pellentesque eu hendrerit justo. Sed viverra placerat tortor, a luctus augue malesuada sit amet. Fusce maximus ante a ipsum pretium pharetra. Vivamus eu urna eu risus viverra gravida at et leo. Praesent neque orci, condimentum eu convallis in, volutpat at ipsum. Cras placerat eget erat vel faucibus. Integer lacinia pulvinar nisi at commodo. Nullam ullamcorper sem sed augue venenatis mattis. Vestibulum consectetur vehicula cursus. Aenean vel ipsum quis dui interdum commodo. Vivamus in felis nisl. Nunc lobortis luctus enim id molestie.
-                    </p>
-
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean quis tortor a orci tincidunt cursus ut et sem. Cras maximus lectus justo, eu fringilla arcu ultricies in. In pellentesque vehicula leo vel elementum. Cras dignissim gravida ipsum vitae pulvinar. Phasellus fermentum, sapien quis pretium luctus, nibh massa posuere arcu, sed euismod eros purus pellentesque purus. Vivamus felis ligula, volutpat nec hendrerit id, pulvinar non justo. Curabitur semper, ligula ac ultrices volutpat, erat lectus volutpat est, sit amet dictum dui nunc quis mi. Vestibulum rhoncus rhoncus urna, et venenatis risus malesuada sed. Cras quis libero at neque semper vulputate. Proin a ligula maximus, aliquet sem quis, euismod ante. Praesent eu dui sit amet nisi commodo vulputate quis nec lacus. Nunc a lectus vulputate, gravida ligula vitae, sollicitudin neque. Morbi lacus dolor, fermentum dignissim magna vel, vulputate efficitur massa. Suspendisse potenti.
-                    </p>
-
-                    <p>
-                        Vestibulum quis congue elit, id vehicula diam. Nam sit amet mattis magna. Proin ac eros nunc. Nullam sit amet dignissim massa. Praesent rutrum laoreet eros ac auctor. Nulla facilisi. Proin efficitur pretium lorem, eget ultricies nisl eleifend eget. Sed congue massa sit amet turpis lacinia maximus. Nunc ullamcorper ornare odio id vestibulum. Fusce leo nulla, luctus quis urna ac, efficitur eleifend orci. Nunc rutrum orci vitae elementum ornare. Maecenas finibus blandit porta. Nulla vel dui nibh. In hac habitasse platea dictumst. Pellentesque in commodo quam.
-                    </p>
-                </main>
+    <div class="stack">
+        <header>
+            <nav class="cluster">
+                <h1><a href="/">@diegoguti</a></h1>
+            </nav>
+        </header>
+        <div class="center">
+            {{range .IndexEntries}}
+            <div class="box stack-small">
+                <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
+                <p>{{.Description}}</p>
             </div>
+            {{end}}
         </div>
     </div>
 </body>

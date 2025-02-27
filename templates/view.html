@@ -11,18 +11,27 @@
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">@diegoguti</a></li>
-                <li><a href="/edit/{{.Id}}">Edit</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="stack">
-        <h1>{{.Title}}</h1>
+    <div class="with-sidebar">
+        <div class="sidebar">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="/">@diegoguti</a></li>
+                        <li><a href="/edit/{{.Id}}">Edit</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        <div class="not-sidebar">
+            <div class="center">
+                <main class="stack">
+                    <h1>{{.Title}}</h1>
+                    <p>{{.Description}}</p>
 
-        {{.Html}}
-    </main>
+                    {{.Html}}
+                </main>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,7 +1,36 @@
+:root {
+    font-family: "Merriweather", serif;
+
+    --color-light: white;
+    --color-dark: #0D132D;
+}
+
+/* Dark Mode Styling */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color: var(--color-light);
+        background-color: var(--color-dark);
+    }
+}
+
+/* Light Mode Styling */
+@media (prefers-color-scheme: light) {
+    :root {
+        color: var(--color-dark);
+        background-color: var(--color-light);
+    }
+}
+
 * {
     box-sizing: border-box;
-    font-family: "Merriweather", serif;
-    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    background-color: inherit;
+}
+
+a {
+    color: #4e88c7;
+    text-decoration: none;
 }
 
 .stack > * + * {
@@ -12,13 +41,54 @@
     margin-block-start: 1.25rem;
 }
 
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.sidebar {
+  flex-grow: 1;
+}
+
+.not-sidebar {
+  flex-basis: 40rem;
+  flex-grow: 999;
+}
+
+.box {
+    padding: 1.5rem;
+}
+
+.box * {
+    color: inherit;
+}
+
+.center {
+    padding-inline-start: 1.5rem;
+    padding-inline-end: 1.5rem;
+    box-sizing: content-box;
+    max-inline-size: 60ch;
+    margin-inline: auto;
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+img {
+  max-inline-size: 100%;
+}
+
 label {
     display: block;
     font-weight: 700;
 }
 
 header {
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 h1 {
@@ -61,8 +131,7 @@ nav ul {
 }
 
 main {
-    max-width: 40rem;
-    margin: auto;
+    display: block;
 }
 
 table {
@@ -78,23 +147,4 @@ table, th, td {
 caption {
     caption-side: bottom;
     padding: 1rem;
-}
-
-main img {
-    width: 100%;
-    border: solid;
-}
-
-main figure figcaption {
-    caption-side: bottom;
-    text-align: center;
-    padding: 1em;
-}
-
-main form {
-    padding: 1em;
-}
-
-main form textarea {
-    width: 95%;
 }

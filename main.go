@@ -92,6 +92,7 @@ var templates = template.Must(template.ParseFiles("templates/edit.html", "templa
 type IndexEntry struct {
     Id int
     Title string
+    Description string
 }
 
 type Index struct {
@@ -99,7 +100,7 @@ type Index struct {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-    rows, err := db.Query("SELECT ArticleId, ArticleTitle FROM Articles;")
+    rows, err := db.Query("SELECT ArticleId, ArticleTitle, ArticleDescription FROM Articles;")
     if err != nil {
         log.Println("Error querying index: ", err)
         return
@@ -109,7 +110,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     index := Index{}
     for rows.Next() {
         entry := IndexEntry{}
-        if err := rows.Scan(&entry.Id, &entry.Title); err != nil {
+        if err := rows.Scan(&entry.Id, &entry.Title, &entry.Description); err != nil {
             log.Println("Error scanning index query: ", err)
             return
         }
@@ -127,26 +128,28 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 type Page struct {
     Id int
     Title string
+    Description string
     Text string
     Html template.HTML
 }
 
 func (p *Page) save() error {
-    _, err := db.Exec("REPLACE INTO Articles (ArticleId, ArticleTitle, ArticleText) VALUES (?, ?, ?)", strconv.Itoa(p.Id), p.Title, p.Text)
+    _, err := db.Exec("REPLACE INTO Articles (ArticleId, ArticleTitle, ArticleDescription, ArticleText) VALUES (?, ?, ?, ?)", strconv.Itoa(p.Id), p.Title, p.Description, p.Text)
     return err
 }
 
 func loadPage(id int) (*Page, error) {
-    row := db.QueryRow("SELECT ArticleTitle, ArticleText FROM Articles WHERE ArticleId = ?;", id)
+    row := db.QueryRow("SELECT ArticleTitle, ArticleDescription, ArticleText FROM Articles WHERE ArticleId = ?;", id)
     var (
         title string
+        description string
         text string
     )
-    if err := row.Scan(&title, &text); err != nil {
+    if err := row.Scan(&title, &description, &text); err != nil {
         log.Println("Error scanning article query: ", err)
         return nil, err
     }
-    return &Page{Id: id, Title: title, Text: text}, nil
+    return &Page{Id: id, Title: title, Description: description, Text: text}, nil
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -175,7 +178,7 @@ func editHandler(w http.ResponseWriter, r *http.Request, id int) {
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request, id int) {
-    p := &Page{Id: id, Title: r.FormValue("title"), Text: r.FormValue("text")}
+    p := &Page{Id: id, Title: r.FormValue("title"), Description: r.FormValue("description"), Text: r.FormValue("text")}
     err := p.save()
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)

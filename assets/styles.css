@@ -1,23 +1,35 @@
 :root {
     font-family: "Merriweather", serif;
 
-    --color-light: white;
-    --color-dark: #0D132D;
+    --primary: blue;
+    --on-primary: white;
+
+    --inverse-primary: blue;
+    --inverse-on-primary: white;
+
+    --surface: #fff;
+    --on-surface: #000;
+
+    --inverse-surface: #000;
+    --inverse-on-surface: #fff;
+
+    --outline: #000;
+    --inverse-outline: #fff;
 }
 
 /* Dark Mode Styling */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
     :root {
-        color: var(--color-light);
-        background-color: var(--color-dark);
+        color: var(--on-surface);
+        background-color: var(--surface);
     }
 }
 
 /* Light Mode Styling */
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
     :root {
-        color: var(--color-dark);
-        background-color: var(--color-light);
+        color: var(--inverse-on-surface);
+        background-color: var(--inverse-surface);
     }
 }
 
@@ -26,11 +38,21 @@
     color: inherit;
     font-family: inherit;
     background-color: inherit;
+    margin: 0;
 }
 
-a {
-    color: #4e88c7;
-    text-decoration: none;
+.box {
+    padding: 1.5rem;
+}
+
+.box * {
+    color: inherit;
+}
+
+/* using *= in case element has more than one class */
+[class*="stack"] > * {
+    /* top and bottom margins in horizontal-tb writing mode */
+    margin-block: 0;
 }
 
 .stack > * + * {
@@ -39,29 +61,6 @@ a {
 
 .stack-small > * + * {
     margin-block-start: 1.25rem;
-}
-
-.with-sidebar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.sidebar {
-  flex-grow: 1;
-}
-
-.not-sidebar {
-  flex-basis: 40rem;
-  flex-grow: 999;
-}
-
-.box {
-    padding: 0.75rem;
-}
-
-.box * {
-    color: inherit;
 }
 
 .center {
@@ -84,35 +83,11 @@ img {
 
 label {
     display: block;
-    font-weight: 700;
 }
 
 header {
     padding: 1.5rem;
-}
-
-h1 {
-    font-size: 2.5rem;
-}
-
-h2 {
-    font-size: 2.25rem;
-}
-
-h3 {
-    font-size: 2rem;
-}
-
-h4 {
-    font-size: 1.75rem;
-}
-
-h5 {
-    font-size: 1.5rem;
-}
-
-h6 {
-    font-size: 1.25rem;
+    border-bottom: solid;
 }
 
 p {
@@ -126,23 +101,4 @@ nav {
 
 nav ul {
     list-style-type: none;
-}
-
-main {
-    display: block;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-table, th, td {
-    margin: auto;
-    border: solid;
-    padding: 0.5rem;
-}
-
-caption {
-    caption-side: bottom;
-    padding: 1rem;
 }

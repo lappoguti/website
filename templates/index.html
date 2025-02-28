@@ -13,19 +13,19 @@
 </head>
 <body>
     <div class="stack">
-        <header>
+        <header class="box">
             <nav class="cluster">
                 <h1><a href="/">@diegoguti</a></h1>
             </nav>
         </header>
-        <div class="center">
+        <main class="box center stack">
             {{range .IndexEntries}}
             <div class="box stack-small">
                 <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
                 <p>{{.Description}}</p>
             </div>
             {{end}}
-        </div>
+        </main>
     </div>
 </body>
 </html>

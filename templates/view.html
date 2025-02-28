@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="stack">
-        <header>
+        <header class="box">
             <nav class="cluster">
                 <h1><a href="/">@diegoguti</a></h1>
                 <ul class="cluster">
@@ -20,13 +20,11 @@
                 </ul>
             </nav>
         </header>
-        <div class="center">
-            <main class="stack">
-                <h1>{{.Title}}</h1>
-                <p>{{.Description}}</p>
+        <main class="center stack box">
+            <h1>{{.Title}}</h1>
+            <p><i>{{.Description}}</i></p>
 
-                {{.Html}}
-            </main>
+            {{.Html}}
         </div>
     </div>
 </body>

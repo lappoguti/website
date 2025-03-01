@@ -81,7 +81,7 @@
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s1);
+  gap: attr(data-spacing type(<length>), var(--s1));
 }
 
 img {

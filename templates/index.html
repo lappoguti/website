@@ -25,6 +25,7 @@
                         <div class="stack" data-spacing="var(--s-1)">
                             <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
                             <p>{{.Description}}</p>
+                            <p>{{.Timestamp.Format "Jan 02, 2006"}}</p>
                         </div>
                     </div>
                     {{end}}

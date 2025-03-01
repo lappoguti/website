@@ -12,6 +12,7 @@ import (
     "html/template"
     "regexp"
     "strconv"
+    "time"
 
     "cloud.google.com/go/cloudsqlconn"
     "github.com/go-sql-driver/mysql"
@@ -93,6 +94,7 @@ type IndexEntry struct {
     Id int
     Title string
     Description string
+    Timestamp time.Time
 }
 
 type Index struct {
@@ -100,7 +102,7 @@ type Index struct {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-    rows, err := db.Query("SELECT ArticleId, ArticleTitle, ArticleDescription FROM Articles;")
+    rows, err := db.Query("SELECT ArticleId, ArticleTitle, ArticleDescription, ArticleTimestamp FROM Articles;")
     if err != nil {
         log.Println("Error querying index: ", err)
         return
@@ -110,7 +112,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     index := Index{}
     for rows.Next() {
         entry := IndexEntry{}
-        if err := rows.Scan(&entry.Id, &entry.Title, &entry.Description); err != nil {
+        if err := rows.Scan(&entry.Id, &entry.Title, &entry.Description, &entry.Timestamp); err != nil {
             log.Println("Error scanning index query: ", err)
             return
         }
@@ -131,6 +133,7 @@ type Page struct {
     Description string
     Text string
     Html template.HTML
+    Timestamp time.Time
 }
 
 func (p *Page) save() error {
@@ -139,17 +142,18 @@ func (p *Page) save() error {
 }
 
 func loadPage(id int) (*Page, error) {
-    row := db.QueryRow("SELECT ArticleTitle, ArticleDescription, ArticleText FROM Articles WHERE ArticleId = ?;", id)
+    row := db.QueryRow("SELECT ArticleTitle, ArticleDescription, ArticleText, ArticleTimestamp FROM Articles WHERE ArticleId = ?;", id)
     var (
         title string
         description string
         text string
+        timestamp time.Time
     )
-    if err := row.Scan(&title, &description, &text); err != nil {
+    if err := row.Scan(&title, &description, &text, &timestamp); err != nil {
         log.Println("Error scanning article query: ", err)
         return nil, err
     }
-    return &Page{Id: id, Title: title, Description: description, Text: text}, nil
+    return &Page{Id: id, Title: title, Description: description, Text: text, Timestamp: timestamp}, nil
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request, id int) {

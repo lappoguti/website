@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <div class="stack" data-spacing="0rem">
+    <div class="with-sidebar" data-dir-col data-spacing="0rem">
         <header class="box">
             <nav class="cluster">
                 <h1><a href="/">@diegoguti</a></h1>
             </nav>
         </header>
-        <div class="center">
-            <main class="box">
+        <main class="box">
+            <div class="center">
                 <div class="stack">
                     {{range .IndexEntries}}
                     <div class="box">
@@ -30,8 +30,8 @@
                     </div>
                     {{end}}
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>

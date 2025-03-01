@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <div class="with-sidebar" data-dir-col>
+    <div class="with-sidebar" data-dir-col data-spacing="0rem">
         <header class="box">
             <nav class="cluster">
                 <h1><a href="/">@diegoguti</a></h1>
@@ -20,26 +20,28 @@
                 </ul>
             </nav>
         </header>
-        <form action="/save/{{.Id}}" method="POST" class="with-sidebar box">
-            <div class="box stack">
-                <div class="box stack" data-spacing="var(--s-1)" data-padding="0rem">
-                    <label for="title">Title:</label>
-                    <textarea name="title">{{.Title}}</textarea>
+        <main class="box">
+            <form action="/save/{{.Id}}" method="POST" class="with-sidebar box">
+                <div class="box stack">
+                    <div class="box stack" data-spacing="var(--s-1)" data-padding="0rem">
+                        <label for="title">Title:</label>
+                        <textarea name="title">{{.Title}}</textarea>
+                    </div>
+
+                    <div class="box stack" data-padding="0rem" data-spacing="var(--s-1)">
+                        <label for="description">Description:</label>
+                        <textarea name="description" rows="10">{{.Description}}</textarea>
+                    </div>
+
+                    <input type="submit" value="Save">
                 </div>
 
-                <div class="box stack" data-padding="0rem" data-spacing="var(--s-1)">
-                    <label for="description">Description:</label>
-                    <textarea name="description" rows="10">{{.Description}}</textarea>
+                <div class="box with-sidebar" data-dir-col data-spacing="var(--s-1)">
+                    <label for="text">Text:</label>
+                    <textarea name="text">{{.Text}}</textarea>
                 </div>
-
-                <input type="submit" value="Save">
-            </div>
-
-            <div class="box with-sidebar" data-dir-col data-spacing="var(--s-1)">
-                <label for="text">Text:</label>
-                <textarea name="text">{{.Text}}</textarea>
-            </div>
-        </form>
+            </form>
+        </main>
     </div>
 </body>
 </html>

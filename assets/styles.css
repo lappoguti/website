@@ -1,20 +1,31 @@
+/* Text */
 :root {
     font-family: "Merriweather", serif;
+}
 
-    --primary: blue;
-    --on-primary: white;
+/* Sizing */
+:root {
+    --ratio: 1.5;
+    --s-5: calc(var(--s-4) / var(--ratio));
+    --s-4: calc(var(--s-3) / var(--ratio));
+    --s-3: calc(var(--s-2) / var(--ratio));
+    --s-2: calc(var(--s-1) / var(--ratio));
+    --s-1: calc(var(--s0) / var(--ratio));
+    --s0: 1rem;
+    --s1: calc(var(--s0) * var(--ratio));
+    --s2: calc(var(--s1) * var(--ratio));
+    --s3: calc(var(--s2) * var(--ratio));
+    --s4: calc(var(--s3) * var(--ratio));
+    --s5: calc(var(--s4) * var(--ratio));
+}
 
-    --inverse-primary: blue;
-    --inverse-on-primary: white;
-
+/* Colors */
+:root {
     --surface: #fff;
     --on-surface: #000;
 
     --inverse-surface: #000;
     --inverse-on-surface: #fff;
-
-    --outline: #000;
-    --inverse-outline: #fff;
 }
 
 /* Dark Mode Styling */
@@ -42,11 +53,7 @@
 }
 
 .box {
-    padding: 1.5rem;
-}
-
-.box * {
-    color: inherit;
+    padding: attr(data-padding type(<length>), var(--s1));
 }
 
 /* using *= in case element has more than one class */
@@ -55,26 +62,26 @@
     margin-block: 0;
 }
 
-.stack > * + * {
-    margin-block-start: 1.5rem;
+.stack {
+    --stack-spacing: attr(data-spacing type(<length>), var(--s1));
 }
 
-.stack-small > * + * {
-    margin-block-start: 1.25rem;
+.stack > * + * {
+    margin-block-start: var(--stack-spacing);
 }
 
 .center {
-    padding-inline-start: 1.5rem;
-    padding-inline-end: 1.5rem;
+    padding-inline-start: var(--s1);
+    padding-inline-end: var(--s1);
     box-sizing: content-box;
-    max-inline-size: 60ch;
+    max-inline-size: attr(data-measure type(<length>), 60ch);
     margin-inline: auto;
 }
 
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: var(--s1);
 }
 
 img {
@@ -86,12 +93,11 @@ label {
 }
 
 header {
-    padding: 1.5rem;
     border-bottom: solid;
 }
 
 p {
-    line-height: 1.5rem;
+    line-height: var(--s1);
 }
 
 nav {

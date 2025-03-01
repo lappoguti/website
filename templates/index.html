@@ -11,20 +11,26 @@
     <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
-    <div class="stack">
+    <div class="stack" data-spacing="0rem">
         <header class="box">
             <nav class="cluster">
                 <h1><a href="/">@diegoguti</a></h1>
             </nav>
         </header>
-        <main class="box center stack">
-            {{range .IndexEntries}}
-            <div class="box stack-small">
-                <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
-                <p>{{.Description}}</p>
-            </div>
-            {{end}}
-        </main>
+        <div class="center">
+            <main class="box">
+                <div class="stack">
+                    {{range .IndexEntries}}
+                    <div class="box">
+                        <div class="stack" data-spacing="var(--s-1)">
+                            <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
+                            <p>{{.Description}}</p>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </main>
+        </div>
     </div>
 </body>
 </html>

@@ -79,9 +79,35 @@
 }
 
 .cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: attr(data-spacing type(<length>), var(--s1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: attr(data-spacing type(<length>), var(--s1));
+}
+
+.with-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: attr(data-spacing type(<length>), var(--s1));
+    height: 100%;
+    width: 100%;
+}
+
+.with-sidebar[data-dir-col] {
+    flex-direction: column;
+}
+
+.with-sidebar > :first-child {
+  flex-grow: 1;
+}
+
+.with-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 50%;
+}
+
+.tall {
+    height: 100%;
 }
 
 img {
@@ -107,4 +133,14 @@ nav {
 
 nav ul {
     list-style-type: none;
+}
+
+html, body {
+    height: 100%;
+}
+
+textarea {
+    resize: none;
+    display: block;
+    width: 100%;
 }

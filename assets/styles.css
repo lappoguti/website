@@ -22,6 +22,7 @@
 /* Colors */
 :root {
     --surface: #fff;
+    --surface-container: #ddd;
     --on-surface: #000;
 
     --inverse-surface: #000;
@@ -144,4 +145,8 @@ textarea {
     resize: none;
     display: block;
     width: 100%;
+}
+
+pre, code {
+    background-color: var(--surface-container);
 }

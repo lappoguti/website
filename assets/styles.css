@@ -150,3 +150,7 @@ textarea {
 pre, code {
     background-color: var(--surface-container);
 }
+
+pre {
+    padding: var(--s1);
+}

@@ -19,30 +19,27 @@
     --s5: calc(var(--s4) * var(--ratio));
 }
 
-/* Colors */
-:root {
-    --surface: #fff;
-    --surface-container: #ddd;
-    --on-surface: #000;
-
-    --inverse-surface: #000;
-    --inverse-on-surface: #fff;
-}
-
 /* Dark Mode Styling */
 @media (prefers-color-scheme: light) {
     :root {
-        color: var(--on-surface);
-        background-color: var(--surface);
+        --surface: #fff;
+        --surface-container: #ddd;
+        --on-surface: #000;
     }
 }
 
 /* Light Mode Styling */
 @media (prefers-color-scheme: dark) {
     :root {
-        color: var(--inverse-on-surface);
-        background-color: var(--inverse-surface);
+        --surface: #000;
+        --surface-container: #111;
+        --on-surface: #fff;
     }
+}
+
+:root {
+    background-color: var(--surface);
+    color: var(--on-surface);
 }
 
 * {

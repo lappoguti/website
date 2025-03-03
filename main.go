@@ -219,8 +219,11 @@ func main() {
     http.HandleFunc("/edit/", makePageHandler(editHandler))
     http.HandleFunc("/save/", makePageHandler(saveHandler))
 
-    fs := http.FileServer(http.Dir("assets"))
-    http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+    assets := http.FileServer(http.Dir("assets"))
+    http.Handle("/assets/", http.StripPrefix("/assets/", assets))
+
+    fun := http.FileServer(http.Dir("fun"))
+    http.Handle("/fun/", http.StripPrefix("/fun/", fun))
 
     // Determine port for HTTP service.
     port := os.Getenv("PORT")

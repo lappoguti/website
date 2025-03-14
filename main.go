@@ -10,7 +10,7 @@ import (
     "path/filepath"
 )
 
-var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/index.html"))
+var templates = template.Must(template.ParseFiles("templates/view.html", "templates/index.html"))
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
     entries, err := os.ReadDir("posts")

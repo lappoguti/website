@@ -16,10 +16,6 @@ import (
 
     "cloud.google.com/go/cloudsqlconn"
     "github.com/go-sql-driver/mysql"
-
-    "github.com/gomarkdown/markdown"
-    "github.com/gomarkdown/markdown/html"
-    "github.com/gomarkdown/markdown/parser"
 )
 
 var (
@@ -72,20 +68,6 @@ func connectWithConnector() {
     }
 
     db = dbPool
-}
-
-func mdToHTML(md []byte) []byte {
-    // create markdown parser with extensions
-    extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
-    p := parser.NewWithExtensions(extensions)
-    doc := p.Parse(md)
-
-    // create HTML renderer with extensions
-    htmlFlags := html.CommonFlags | html.HrefTargetBlank
-    opts := html.RendererOptions{Flags: htmlFlags}
-    renderer := html.NewRenderer(opts)
-
-    return markdown.Render(doc, renderer)
 }
 
 var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/index.html"))
@@ -158,7 +140,7 @@ func loadPage(id int) (*Page, error) {
 
 func viewHandler(w http.ResponseWriter, r *http.Request, id int) {
     p, err := loadPage(id)
-    p.Html = template.HTML(mdToHTML([]byte(p.Text)))
+    p.Html = template.HTML(p.Text)
     if err != nil {
         return
     }

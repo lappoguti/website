@@ -21,15 +21,13 @@
             </nav>
         </header>
         <main class="box">
-            <div class="center">
-                <div class="stack">
-                    <h1>{{.Title}}</h1>
-                    <p><i>{{.Description}}</i></p>
-                    <p>{{.Timestamp.Format "Jan 02, 2006"}}</p>
+            <article class="stack center" data-measure="calc(36 * var(--s1)">
+                <h1>{{.Title}}</h1>
+                <p><i>{{.Description}}</i></p>
+                <p>{{.Timestamp.Format "Jan 02, 2006"}}</p>
 
-                    {{.Html}}
-                </div>
-            </div>
+                {{.Html}}
+            </article>
         </main>
     </div>
 </body>

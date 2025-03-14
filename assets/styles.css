@@ -56,8 +56,7 @@
     padding: attr(data-padding type(<length>), var(--s1));
 }
 
-/* using *= in case element has more than one class */
-[class*="stack"] > * {
+.stack > * {
     /* top and bottom margins in horizontal-tb writing mode */
     margin-block: 0;
 }

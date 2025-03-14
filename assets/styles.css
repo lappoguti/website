@@ -131,12 +131,6 @@ html, body {
     height: 100%;
 }
 
-textarea {
-    resize: none;
-    display: block;
-    width: 100%;
-}
-
 aside {
     font-size: var(--s-1);
     --measure: calc(10 * var(--s1));

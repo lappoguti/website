@@ -20,12 +20,10 @@
         <main class="box">
             <div class="center">
                 <div class="stack">
-                    {{range .IndexEntries}}
+                    {{range .}}
                     <div class="box">
                         <div class="stack" data-spacing="var(--s-1)">
-                            <h2><a href="/view/{{.Id}}">{{.Title}}</a></h2>
-                            <p>{{.Description}}</p>
-                            <p>{{.Timestamp.Format "Jan 02, 2006"}}</p>
+                            <p><a href="/blog/{{ .Name }}">{{ .Name }}</a></p>
                         </div>
                     </div>
                     {{end}}
